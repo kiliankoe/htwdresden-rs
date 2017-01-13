@@ -1,18 +1,4 @@
-pub enum Degree {
-    Bachelor,
-    Master,
-    Diploma,
-}
-
-impl Degree {
-    fn short(self) -> &'static str {
-        match self {
-            Degree::Bachelor => "B",
-            Degree::Master => "M",
-            Degree::Diploma => "D",
-        }
-    }
-}
+use Degree;
 
 pub fn student_exams(year: u16, course: u16, degree: Degree) {
     println!("Getting data for course {} in {} with degree {}.",
