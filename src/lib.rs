@@ -5,12 +5,13 @@ pub mod exams;
 pub struct Studygroup {
     pub year: u16,
     pub course: u16,
+    pub group: u16,
     pub degree: Degree,
 }
 
 impl Studygroup {
-    pub fn identifier(self) -> String {
-        format!("{}/{}/{}", self.year, self.course, self.degree.short())
+    pub fn identifier(&self) -> String {
+        format!("{}/{}/{}", self.year, self.course, self.group)
     }
 }
 
