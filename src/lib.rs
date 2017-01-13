@@ -31,3 +31,9 @@ impl Degree {
         }
     }
 }
+
+#[derive(Debug)]
+pub enum Semester {
+    Winter(u16),
+    Summer(u16),
+}
