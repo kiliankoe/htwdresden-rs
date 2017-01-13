@@ -2,6 +2,19 @@ pub mod grades;
 pub mod exams;
 
 #[derive(Debug)]
+pub struct Studygroup {
+    pub year: u16,
+    pub course: u16,
+    pub degree: Degree,
+}
+
+impl Studygroup {
+    pub fn identifier(self) -> String {
+        format!("{}/{}/{}", self.year, self.course, self.degree.short())
+    }
+}
+
+#[derive(Debug)]
 pub enum Degree {
     Bachelor,
     Master,
