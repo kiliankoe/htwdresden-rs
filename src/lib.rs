@@ -1,9 +1,11 @@
 pub mod grades;
 pub mod exams;
 
+pub type Year = u16;
+
 #[derive(Debug)]
 pub struct Studygroup {
-    pub year: u16,
+    pub year: Year,
     pub course: u16,
     pub group: u16,
     pub degree: Degree,
@@ -34,6 +36,6 @@ impl Degree {
 
 #[derive(Debug)]
 pub enum Semester {
-    Winter(u16),
-    Summer(u16),
+    Winter(Year),
+    Summer(Year),
 }
