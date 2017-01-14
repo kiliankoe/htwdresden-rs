@@ -39,3 +39,17 @@ pub enum Semester {
     Winter(Year),
     Summer(Year),
 }
+
+pub struct Login {
+    snumber: String,
+    password: String,
+}
+
+impl Login {
+    pub fn new(snumber: &str, password: &str) -> Login {
+        Login {
+            snumber: snumber.to_string(),
+            password: password.to_string(),
+        }
+    }
+}
