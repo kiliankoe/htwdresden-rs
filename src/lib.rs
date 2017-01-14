@@ -17,7 +17,7 @@ impl Studygroup {
     }
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone, Copy)]
 pub enum Degree {
     Bachelor,
     Master,
@@ -25,8 +25,8 @@ pub enum Degree {
 }
 
 impl Degree {
-    pub fn short(self) -> &'static str {
-        match self {
+    pub fn short(&self) -> &'static str {
+        match *self {
             Degree::Bachelor => "B",
             Degree::Master => "M",
             Degree::Diploma => "D",
