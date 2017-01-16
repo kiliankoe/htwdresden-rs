@@ -85,3 +85,24 @@ fn post_json(url: &str, params: HashMap<&str, String>) -> JsonValue {
 
     json::parse(&response).unwrap()
 }
+
+trait FromJson {
+    fn from_json(json: JsonValue) -> Self;
+
+    fn mult_from_json(json: JsonValue) -> Vec<Self>
+        where Self: std::marker::Sized
+    {
+        let arr = match json {
+            JsonValue::Array(arr) => arr,
+            _ => panic!("Can't instantiate many values from non-array in JSON."),
+        };
+
+        // TODO: How does map or whatever equiv work in Rust?
+        let mut values: Vec<Self> = Vec::new();
+        for json_val in arr {
+            values.push(Self::from_json(json_val));
+        }
+
+        values
+    }
+}

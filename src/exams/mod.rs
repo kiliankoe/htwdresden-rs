@@ -3,6 +3,7 @@ use json::JsonValue;
 use Year;
 use Degree;
 use Course;
+use FromJson;
 use get_json;
 
 const base_url: &'static str = "https://www2.htw-dresden.de/~app/API/GetExams.php";
@@ -68,22 +69,7 @@ pub struct Exam {
     pub rooms: Vec<String>,
 }
 
-impl Exam {
-    fn mult_from_json(json: JsonValue) -> Vec<Exam> {
-        let arr = match json {
-            JsonValue::Array(arr) => arr,
-            _ => panic!("Can't instantiate many exams from non-array in JSON."),
-        };
-
-        let mut exams: Vec<Exam> = Vec::new();
-        for value in arr {
-            let e = Exam::from_json(value);
-            exams.push(e);
-        }
-
-        exams
-    }
-
+impl FromJson for Exam {
     fn from_json(json: JsonValue) -> Exam {
         Exam {
             // wat o.O
