@@ -1,7 +1,20 @@
 use Login;
-use get_json;
+use FromJson;
+use post_json;
 
-const base_url: &'static str = "https://wwwqis.htw-dresden.de/appservice/";
+use std::collections::HashMap;
+use json::JsonValue;
+
+pub fn get_courses(login: &Login) -> Option<Vec<Course>> {
+    let url = "https://wwwqis.htw-dresden.de/appservice/getcourses";
+    let mut map = HashMap::new();
+    map.insert("sNummer", login.snumber.clone()); // is cloning ok?
+    map.insert("RZLogin", login.password.clone());
+
+    let json = post_json(url, map);
+    let courses = Course::mult_from_json(json);
+    Some(courses)
+}
 
 #[derive(Debug)]
 pub struct Course {
@@ -12,7 +25,19 @@ pub struct Course {
     pub course_note: String,
 }
 
-pub fn get_courses(login: &Login) {}
+impl FromJson for Course {
+    fn from_json(json: JsonValue) -> Course {
+        Course {
+            degree_txt: String::from(json["AbschlTxt"].as_str().unwrap()),
+            reg_version: String::from(json["POVersion"].as_str().unwrap()),
+            deg_nr: String::from(json["AbschlNr"].as_str().unwrap()),
+            course_nr: String::from(json["StgNr"].as_str().unwrap()),
+            course_note: String::from(json["StgTxt"].as_str().unwrap()),
+        }
+    }
+}
+
+pub fn get_grades(login: &Login, course: &Course) {}
 
 #[derive(Debug)]
 pub struct Grade {
@@ -29,5 +54,3 @@ pub struct Grade {
     pub comment: String,
     pub ects_grade: String,
 }
-
-pub fn get_grades(login: &Login, course: &Course) {}
