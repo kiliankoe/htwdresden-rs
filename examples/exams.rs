@@ -1,6 +1,6 @@
 extern crate htwdresden;
 
-use htwdresden::*;
+use htwdresden::{Degree, exams};
 
 fn main() {
     println!("Exams for 16/121/61:");
