@@ -5,6 +5,7 @@ pub mod grades;
 pub mod exams;
 
 use std::io::Read;
+use std::collections::HashMap;
 use json::JsonValue;
 
 pub type Year = u16;
@@ -61,8 +62,23 @@ impl Login {
     }
 }
 
+// internal stuff
+
 fn get_json(url: &str) -> JsonValue {
     let mut res = reqwest::get(url).unwrap();
+
+    let mut response = String::new();
+    res.read_to_string(&mut response);
+
+    json::parse(&response).unwrap()
+}
+
+fn post_json(url: &str, params: HashMap<&str, String>) -> JsonValue {
+    let client = reqwest::Client::new().unwrap();
+    let mut res = client.post(url)
+        .form(&params)
+        .send()
+        .unwrap();
 
     let mut response = String::new();
     res.read_to_string(&mut response);
