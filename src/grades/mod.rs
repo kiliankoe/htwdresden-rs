@@ -42,6 +42,7 @@ pub struct Course {
 impl FromJson for Course {
     fn from_json(json: JsonValue) -> Self {
         Course {
+            // FIXME
             degree_txt: String::from(json["AbschlTxt"].as_str().unwrap()),
             reg_version: String::from(json["POVersion"].as_str().unwrap()),
             deg_nr: String::from(json["AbschlNr"].as_str().unwrap()),
@@ -100,6 +101,7 @@ pub struct Grade {
 impl FromJson for Grade {
     fn from_json(json: JsonValue) -> Self {
         Grade {
+            // FIXME
             exam_nr: String::from(json["PrNr"].as_str().unwrap()),
             status: String::from(json["Status"].as_str().unwrap()),
             ects_credits: String::from(json["EctsCredits"].as_str().unwrap()),

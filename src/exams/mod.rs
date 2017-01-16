@@ -72,7 +72,7 @@ pub struct Exam {
 impl FromJson for Exam {
     fn from_json(json: JsonValue) -> Exam {
         Exam {
-            // wat o.O
+            // wat o.O FIXME
             title: String::from(json["Title"].as_str().unwrap()),
             exam_type: String::from(json["ExamType"].as_str().unwrap()),
             study_branch: String::from(json["StudyBranch"].as_str().unwrap()),
