@@ -1,11 +1,13 @@
-use super::get_json;
 use json::JsonValue;
 
+use Year;
 use Degree;
+use Course;
+use get_json;
 
 const base_url: &'static str = "https://www2.htw-dresden.de/~app/API/GetExams.php";
 
-pub fn student_exams(year: u16, course: u16, degree: Degree) -> Option<Vec<Exam>> {
+pub fn student_exams(year: Year, course: Course, degree: Degree) -> Option<Vec<Exam>> {
     let url = format!("{base}?StgJhr={year}&Stg={course}&AbSc={degree}",
                       base = base_url,
                       year = year,
@@ -27,9 +29,7 @@ pub fn student_exams(year: u16, course: u16, degree: Degree) -> Option<Vec<Exam>
     Some(exams)
 }
 
-pub fn prof_exams(prof: &str) {
-    println!("Getting data for prof {}.", prof);
-}
+pub fn prof_exams(prof: &str) {}
 
 #[derive(Debug)]
 pub struct Exam {
