@@ -5,6 +5,20 @@ use post_json;
 use std::collections::HashMap;
 use json::JsonValue;
 
+/// Returns a list of courses for a given login.
+///
+/// # Arguments
+///
+/// * `login` - Login
+///
+/// # Example
+///
+/// ```
+/// use htwdresden::{Login, grades}
+///
+/// let login = Login::new("s#####", "password");
+/// let courses = grades::get_courses(&login);
+/// ```
 pub fn get_courses(login: &Login) -> Option<Vec<Course>> {
     let url = "https://wwwqis.htw-dresden.de/appservice/getcourses";
     let mut map = HashMap::new();
@@ -37,6 +51,22 @@ impl FromJson for Course {
     }
 }
 
+/// Returns a list of grades for a given login and course.
+///
+/// # Arguments
+///
+/// * `login` - Login
+/// * `course` - Course
+///
+/// # Example
+///
+/// ```
+/// use htwdresden::{Login, Course, grades};
+///
+/// let login = Login::new("s#####", "password");
+/// let courses = grades::get_courses(&login);
+/// let all_grades = grades::get_grades(&login, &courses[0]);
+/// ```
 pub fn get_grades(login: &Login, course: &Course) -> Option<Vec<Grade>> {
     let url = "https://wwwqis.htw-dresden.de/appservice/getgrades";
     let mut map = HashMap::new();
