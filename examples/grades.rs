@@ -7,4 +7,7 @@ fn main() {
                            include_str!("secret_password").trim());
     let courses = grades::get_courses(&login).unwrap();
     println!("{:?}", courses);
+
+    let grades = grades::get_grades(&login, &courses[0]).unwrap();
+    println!("{:?}", grades);
 }
