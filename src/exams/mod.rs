@@ -6,7 +6,7 @@ use Course;
 use FromJson;
 use get_json;
 
-const base_url: &'static str = "https://www2.htw-dresden.de/~app/API/GetExams.php";
+const BASE_URL: &'static str = "https://www2.htw-dresden.de/~app/API/GetExams.php";
 
 /// Returns a list of `Exam`s for a given student.
 ///
@@ -26,7 +26,7 @@ const base_url: &'static str = "https://www2.htw-dresden.de/~app/API/GetExams.ph
 /// ```
 pub fn student_exams(year: Year, course: Course, degree: Degree) -> Option<Vec<Exam>> {
     let url = format!("{base}?StgJhr={year}&Stg={course}&AbSc={degree}",
-                      base = base_url,
+                      base = BASE_URL,
                       year = year,
                       course = course,
                       degree = degree.short());
@@ -50,7 +50,7 @@ pub fn student_exams(year: Year, course: Course, degree: Degree) -> Option<Vec<E
 /// let exams = prof_exams("Rennekamp");
 /// ```
 pub fn prof_exams(prof: &str) -> Option<Vec<Exam>> {
-    let url = format!("{base}?Prof={prof}", base = base_url, prof = prof);
+    let url = format!("{base}?Prof={prof}", base = BASE_URL, prof = prof);
     let json = get_json(&url);
     let exams = Exam::mult_from_json(json);
     Some(exams)
