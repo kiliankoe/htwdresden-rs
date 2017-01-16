@@ -9,6 +9,7 @@ use std::io::Read;
 use json::JsonValue;
 
 pub type Year = u16;
+pub type Course = u16;
 
 #[derive(Debug)]
 pub struct Studygroup {
