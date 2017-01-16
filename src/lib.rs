@@ -34,7 +34,7 @@ pub enum Degree {
 }
 
 impl Degree {
-    pub fn short(&self) -> &'static str {
+    fn short(&self) -> &'static str {
         match *self {
             Degree::Bachelor => "B",
             Degree::Master => "M",
