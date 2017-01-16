@@ -43,7 +43,7 @@ pub fn get_grades(login: &Login, course: &Course) {}
 pub struct Grade {
     pub exam_nr: String,
     pub status: String,
-    pub etcs_credits: String,
+    pub ects_credits: String,
     pub exam_txt: String,
     pub semester: String,
     pub try_count: String,
