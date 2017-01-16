@@ -3,6 +3,7 @@ extern crate htwdresden;
 use htwdresden::*;
 
 fn main() {
-    exams::student_exams(2016, 121, Degree::Bachelor);
+    let e = exams::student_exams(2016, 121, Degree::Bachelor).unwrap();
+    println!("{:#?}", e);
     // exams::prof_exams("Rennekamp");
 }

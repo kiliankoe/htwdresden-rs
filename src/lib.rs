@@ -4,6 +4,10 @@ extern crate json;
 pub mod grades;
 pub mod exams;
 
+use hyper::Client;
+use std::io::Read;
+use json::JsonValue;
+
 pub type Year = u16;
 
 #[derive(Debug)]
@@ -55,4 +59,14 @@ impl Login {
             password: password.to_string(),
         }
     }
+}
+
+fn get_json(url: &str) -> JsonValue {
+    let client = Client::new();
+    let mut res = client.get(url).send().unwrap();
+
+    let mut response = String::new();
+    res.read_to_string(&mut response);
+
+    json::parse(&response).unwrap()
 }
