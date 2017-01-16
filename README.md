@@ -14,7 +14,13 @@ let e = exams::student_exams(2016, 121, Degree::Bachelor);
 
 ### Grades
 
-WIP
+```rust
+use htwdresden::{Login, grades};
+
+let login = Login::new("s#####", "password");
+let courses = grades::get_courses(&login).unwrap();
+let all_grades = grades::get_grades(&login, &courses[0]).unwrap();
+```
 
 ### Timetable
 
