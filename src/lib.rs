@@ -68,7 +68,7 @@ fn get_json(url: &str) -> JsonValue {
     let mut res = reqwest::get(url).unwrap();
 
     let mut response = String::new();
-    res.read_to_string(&mut response);
+    let _ = res.read_to_string(&mut response);
 
     json::parse(&response).unwrap()
 }
@@ -81,7 +81,7 @@ fn post_json(url: &str, params: HashMap<&str, String>) -> JsonValue {
         .unwrap();
 
     let mut response = String::new();
-    res.read_to_string(&mut response);
+    let _ = res.read_to_string(&mut response);
 
     json::parse(&response).unwrap()
 }
