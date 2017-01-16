@@ -11,19 +11,19 @@ use json::JsonValue;
 pub type Year = u16;
 pub type Course = u16;
 
-//#[derive(Debug)]
-//pub struct Studygroup {
-//    pub year: Year,
-//    pub course: u16,
-//    pub group: u16,
-//    pub degree: Degree,
-//}
-//
-//impl Studygroup {
-//    pub fn identifier(&self) -> String {
-//        format!("{}/{}/{}", self.year, self.course, self.group)
-//    }
-//}
+#[derive(Debug)]
+pub struct Studygroup {
+    pub year: Year,
+    pub course: u16,
+    pub group: u16,
+    pub degree: Degree,
+}
+
+impl Studygroup {
+    pub fn identifier(&self) -> String {
+        format!("{}/{}/{}", self.year, self.course, self.group)
+    }
+}
 
 /// A degree, e.g. something you graduate with.
 #[derive(Debug, Clone, Copy)]

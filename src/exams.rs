@@ -1,8 +1,6 @@
 use json::JsonValue;
 
-use Year;
-use Degree;
-use Course;
+use Studygroup;
 use FromJson;
 use get_json;
 
@@ -19,17 +17,17 @@ const BASE_URL: &'static str = "https://www2.htw-dresden.de/~app/API/GetExams.ph
 /// # Example
 ///
 /// ```
-/// use htwdresden::Degree;
-/// use htwdresden::exams::student_exams;
+/// use htwdresden::{Degree, Studygroup, exams};
 ///
-/// let exams = student_exams(2016, 121, Degree::Bachelor);
+/// let group = Studygroup { year: 2016, course: 121, group: 61, degree: Degree::Bachelor };
+/// let all_exams = exams::student_exams(&group);
 /// ```
-pub fn student_exams(year: Year, course: Course, degree: Degree) -> Option<Vec<Exam>> {
+pub fn student_exams(group: &Studygroup) -> Option<Vec<Exam>> {
     let url = format!("{base}?StgJhr={year}&Stg={course}&AbSc={degree}",
                       base = BASE_URL,
-                      year = year,
-                      course = course,
-                      degree = degree.short());
+                      year = group.year,
+                      course = group.course,
+                      degree = group.degree.short());
 
     let json = get_json(&url);
     let exams = Exam::mult_from_json(json);
