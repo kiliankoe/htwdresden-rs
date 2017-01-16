@@ -1,10 +1,9 @@
-extern crate hyper;
+extern crate reqwest;
 extern crate json;
 
 pub mod grades;
 pub mod exams;
 
-use hyper::Client;
 use std::io::Read;
 use json::JsonValue;
 
@@ -63,8 +62,7 @@ impl Login {
 }
 
 fn get_json(url: &str) -> JsonValue {
-    let client = Client::new();
-    let mut res = client.get(url).send().unwrap();
+    let mut res = reqwest::get(url).unwrap();
 
     let mut response = String::new();
     res.read_to_string(&mut response);
