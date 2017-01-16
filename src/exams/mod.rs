@@ -7,6 +7,22 @@ use get_json;
 
 const base_url: &'static str = "https://www2.htw-dresden.de/~app/API/GetExams.php";
 
+/// Returns a list of `Exam`s for a given student.
+///
+/// # Arguments
+///
+/// * `year` - Year
+/// * `course` - Course identifier
+/// * `degree` - Degree
+///
+/// # Example
+///
+/// ```
+/// use htwdresden::Degree;
+/// use htwdresden::exams::student_exams;
+///
+/// let exams = student_exams(2016, 121, Degree::Bachelor);
+/// ```
 pub fn student_exams(year: Year, course: Course, degree: Degree) -> Option<Vec<Exam>> {
     let url = format!("{base}?StgJhr={year}&Stg={course}&AbSc={degree}",
                       base = base_url,
@@ -19,6 +35,19 @@ pub fn student_exams(year: Year, course: Course, degree: Degree) -> Option<Vec<E
     Some(exams)
 }
 
+/// Returns a list of `Exam`s for a given professor.
+///
+/// # Arguments
+///
+/// * `prof` - Professor name
+///
+/// # Example
+///
+/// ```
+/// use htwdresden::exams::prof_exams;
+///
+/// let exams = prof_exams("Rennekamp");
+/// ```
 pub fn prof_exams(prof: &str) -> Option<Vec<Exam>> {
     let url = format!("{base}?Prof={prof}", base = base_url, prof = prof);
     let json = get_json(&url);
