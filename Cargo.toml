@@ -4,3 +4,6 @@ version = "0.1.0"
 authors = ["Kilian Koeltzsch <me@kilian.io>"]
 
 [dependencies]
+# hyper = "0.10"
+hyper = { version = "0.9", default-features = false, features = ["security-framework"] }
+json = "*"

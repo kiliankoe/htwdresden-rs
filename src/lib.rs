@@ -1,3 +1,6 @@
+extern crate hyper;
+extern crate json;
+
 pub mod grades;
 pub mod exams;
 
