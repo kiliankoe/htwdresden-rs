@@ -15,21 +15,16 @@ pub fn student_exams(year: Year, course: Course, degree: Degree) -> Option<Vec<E
                       degree = degree.short());
 
     let json = get_json(&url);
-    let arr = match json {
-        JsonValue::Array(arr) => arr,
-        _ => panic!("No data in json array ¯\\_(ツ)_/¯"),
-    };
-
-    let mut exams: Vec<Exam> = Vec::new();
-    for value in arr {
-        let e = Exam::from_json(value);
-        exams.push(e);
-    }
-
+    let exams = Exam::mult_from_json(json);
     Some(exams)
 }
 
-pub fn prof_exams(prof: &str) {}
+pub fn prof_exams(prof: &str) -> Option<Vec<Exam>> {
+    let url = format!("{base}?Prof={prof}", base = base_url, prof = prof);
+    let json = get_json(&url);
+    let exams = Exam::mult_from_json(json);
+    Some(exams)
+}
 
 #[derive(Debug)]
 pub struct Exam {
@@ -45,6 +40,21 @@ pub struct Exam {
 }
 
 impl Exam {
+    fn mult_from_json(json: JsonValue) -> Vec<Exam> {
+        let arr = match json {
+            JsonValue::Array(arr) => arr,
+            _ => panic!("Can't instantiate many exams from non-array in JSON."),
+        };
+
+        let mut exams: Vec<Exam> = Vec::new();
+        for value in arr {
+            let e = Exam::from_json(value);
+            exams.push(e);
+        }
+
+        exams
+    }
+
     fn from_json(json: JsonValue) -> Exam {
         Exam {
             // wat o.O
