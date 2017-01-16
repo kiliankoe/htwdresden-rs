@@ -25,6 +25,7 @@ impl Studygroup {
     }
 }
 
+/// A degree, e.g. something you graduate with.
 #[derive(Debug, Clone, Copy)]
 pub enum Degree {
     Bachelor,
@@ -42,18 +43,26 @@ impl Degree {
     }
 }
 
+/// A semester, either Winter or Summer with a corresponding year.
 #[derive(Debug)]
 pub enum Semester {
     Winter(Year),
     Summer(Year),
 }
 
+/// A login used to authenticate with the server.
 pub struct Login {
     snumber: String,
     password: String,
 }
 
 impl Login {
+    /// Create a new login
+    ///
+    /// # Arguments
+    ///
+    /// * `snumber` - The "sNummer", e.g. s12345
+    /// * `password` - Password
     pub fn new(snumber: &str, password: &str) -> Login {
         Login {
             snumber: snumber.to_string(),
