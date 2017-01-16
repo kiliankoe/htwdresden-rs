@@ -56,7 +56,7 @@ impl Exam {
             end_time: String::from(json["EndTime"].as_str().unwrap()),
             examiner: String::from(json["Examiner"].as_str().unwrap()),
             next_chance: String::from(json["NextChance"].as_str().unwrap()),
-            rooms: vec![String::new()],
+            rooms: vec![String::new()], // TODO
         }
     }
 }
