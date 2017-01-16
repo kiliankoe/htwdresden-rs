@@ -14,7 +14,7 @@ use json::JsonValue;
 /// # Example
 ///
 /// ```
-/// use htwdresden::{Login, grades}
+/// use htwdresden::{Login, grades};
 ///
 /// let login = Login::new("s#####", "password");
 /// let courses = grades::get_courses(&login);
@@ -61,10 +61,10 @@ impl FromJson for Course {
 /// # Example
 ///
 /// ```
-/// use htwdresden::{Login, Course, grades};
+/// use htwdresden::{Login, grades};
 ///
 /// let login = Login::new("s#####", "password");
-/// let courses = grades::get_courses(&login);
+/// let courses = grades::get_courses(&login).unwrap();
 /// let all_grades = grades::get_grades(&login, &courses[0]);
 /// ```
 pub fn get_grades(login: &Login, course: &Course) -> Option<Vec<Grade>> {
