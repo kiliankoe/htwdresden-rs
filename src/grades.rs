@@ -30,6 +30,7 @@ pub fn get_courses(login: &Login) -> Option<Vec<Course>> {
     Some(courses)
 }
 
+/// A course of studies.
 #[derive(Debug)]
 pub struct Course {
     pub degree_txt: String,
@@ -82,6 +83,7 @@ pub fn get_grades(login: &Login, course: &Course) -> Option<Vec<Grade>> {
     Some(grades)
 }
 
+/// A grade, hopefully a good one.
 #[derive(Debug)]
 pub struct Grade {
     pub exam_nr: String,

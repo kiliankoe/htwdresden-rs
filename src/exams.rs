@@ -56,6 +56,7 @@ pub fn prof_exams(prof: &str) -> Option<Vec<Exam>> {
     Some(exams)
 }
 
+/// An exam, something to study for!
 #[derive(Debug)]
 pub struct Exam {
     pub title: String,
