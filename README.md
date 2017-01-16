@@ -9,8 +9,8 @@ Rust library for accessing organisational data from the [University of Applied S
 ```rust
 use htwdresden::{Degree, exams};
 
-let e = exams::student_exams(2016, 121, Degree::Bachelor).unwrap();
-let p = exams::prof_exams("prof identifier").unwrap();
+let e = exams::student_exams(2016, 121, Degree::Bachelor);
+let p = exams::prof_exams("prof identifier");
 ```
 
 ### Grades
@@ -20,7 +20,7 @@ use htwdresden::{Login, grades};
 
 let login = Login::new("s#####", "password");
 let courses = grades::get_courses(&login).unwrap();
-let all_grades = grades::get_grades(&login, &courses[0]).unwrap();
+let all_grades = grades::get_grades(&login, &courses[0]);
 ```
 
 ### Timetable
