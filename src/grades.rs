@@ -9,7 +9,7 @@ use json::JsonValue;
 #[derive(Debug)]
 pub struct Course {
     pub degree_txt: String,
-    pub reg_version: String,
+    pub regulation_version: String,
     pub deg_nr: String,
     pub course_nr: String,
     pub course_note: String,
@@ -20,7 +20,7 @@ impl FromJson for Course {
         Course {
             // FIXME
             degree_txt: String::from(json["AbschlTxt"].as_str().unwrap()),
-            reg_version: String::from(json["POVersion"].as_str().unwrap()),
+            regulation_version: String::from(json["POVersion"].as_str().unwrap()),
             deg_nr: String::from(json["AbschlNr"].as_str().unwrap()),
             course_nr: String::from(json["StgNr"].as_str().unwrap()),
             course_note: String::from(json["StgTxt"].as_str().unwrap()),
@@ -116,7 +116,7 @@ impl Grade {
         map.insert("RZLogin", login.password.clone());
         map.insert("AbschlNr", course.deg_nr.clone());
         map.insert("StgNr", course.course_nr.clone());
-        map.insert("POVersion", course.reg_version.clone());
+        map.insert("POVersion", course.regulation_version.clone());
 
         let json = post_json(url, map);
         let grades = Grade::mult_from_json(json);
