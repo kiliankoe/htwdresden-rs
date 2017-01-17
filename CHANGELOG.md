@@ -4,6 +4,5 @@
 
 ### Added
 
-- student_exams()
-- prof_exams()
-
+- Exam data for students, studygroups (equivalent to students) and professors
+- Courses and grades
