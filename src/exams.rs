@@ -1,7 +1,7 @@
 use json::JsonValue;
 
 use Year;
-use Course;
+use CourseId;
 use Degree;
 use Studygroup;
 use FromJson;
@@ -74,7 +74,7 @@ impl Exam {
     ///
     /// let exams = Exam::for_student(2016, 121, Degree::Bachelor);
     /// ```
-    pub fn for_student(year: Year, course: Course, degree: Degree) -> Option<Vec<Exam>> {
+    pub fn for_student(year: Year, course: CourseId, degree: Degree) -> Option<Vec<Exam>> {
         let url = format!("{base}?StgJhr={year}&Stg={course}&AbSc={degree}",
                           base = BASE_URL,
                           year = year,

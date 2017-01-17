@@ -1,7 +1,8 @@
 extern crate reqwest;
 extern crate json;
 
-pub mod grades;
+mod grades;
+pub use grades::{Course, Grade};
 mod exams;
 pub use exams::Exam;
 
@@ -10,12 +11,12 @@ use std::collections::HashMap;
 use json::JsonValue;
 
 pub type Year = u16;
-pub type Course = u16;
+pub type CourseId = u16;
 
 #[derive(Debug)]
 pub struct Studygroup {
     pub year: Year,
-    pub course: u16,
+    pub course: CourseId,
     pub group: u16,
     pub degree: Degree,
 }

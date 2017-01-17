@@ -23,11 +23,11 @@ let exams = Exam::for_prof("prof identifier");
 ### Grades
 
 ```rust
-use htwdresden::{Login, grades};
+use htwdresden::{Login, Course, Grade};
 
 let login = Login::new("s#####", "password");
-let courses = grades::get_courses(&login).unwrap();
-let all_grades = grades::get_grades(&login, &courses[0]);
+let courses = Course::get(&login).unwrap();
+let grades = Grade::get(&login, &courses[0]);
 ```
 
 ### Timetable
