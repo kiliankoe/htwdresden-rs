@@ -73,6 +73,12 @@ impl Login {
     }
 }
 
+/// A set of errors that may occur during execution.
+#[derive(Debug)]
+pub enum HTWError {
+    Network,
+}
+
 // internal stuff
 
 fn get_json(url: &str) -> JsonValue {
