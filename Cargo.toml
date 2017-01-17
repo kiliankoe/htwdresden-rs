@@ -3,6 +3,15 @@ name = "htwdresden"
 version = "0.1.0"
 authors = ["Kilian Koeltzsch <me@kilian.io>"]
 
+description = "Library for accessing organisational data from the University of Applied Sciences Dresden (HTW Dresden)."
+documentation = "https://kiliankoe.github.io/htwdresden-rs/htwdresden/index.html"
+homepage = "https://github.com/kiliankoe/htwdresden-rs"
+repository = "https://github.com/kiliankoe/htwdresden-rs"
+
+readme = "README.md"
+keywords = ["university", "htw", "dresden", "exam", "grade", "timetable"]
+license = "MIT"
+
 [dependencies]
 reqwest = "0.3"
 json = "0.11"
