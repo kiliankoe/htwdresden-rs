@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["get_courses","Returns a list of courses for a given login."],["get_grades",""]],"struct":[["Course",""],["Grade",""]]});
