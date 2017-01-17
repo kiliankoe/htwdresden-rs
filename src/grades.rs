@@ -1,3 +1,4 @@
+use HTWError;
 use Login;
 use FromJson;
 use post_json;
@@ -16,15 +17,17 @@ pub struct Course {
 }
 
 impl FromJson for Course {
-    fn from_json(json: JsonValue) -> Self {
-        Course {
+    fn from_json(json: JsonValue) -> Result<Self, HTWError> {
+        let course = Course {
             // FIXME
             degree_txt: String::from(json["AbschlTxt"].as_str().unwrap()),
             regulation_version: String::from(json["POVersion"].as_str().unwrap()),
             deg_nr: String::from(json["AbschlNr"].as_str().unwrap()),
             course_nr: String::from(json["StgNr"].as_str().unwrap()),
             course_note: String::from(json["StgTxt"].as_str().unwrap()),
-        }
+        };
+
+        Ok(course)
     }
 }
 
@@ -50,7 +53,7 @@ impl Course {
         map.insert("RZLogin", login.password.clone());
 
         let json = post_json(url, map);
-        let courses = Course::mult_from_json(json);
+        let courses = Course::mult_from_json(json).unwrap();
         Some(courses)
     }
 }
@@ -73,8 +76,8 @@ pub struct Grade {
 }
 
 impl FromJson for Grade {
-    fn from_json(json: JsonValue) -> Self {
-        Grade {
+    fn from_json(json: JsonValue) -> Result<Self, HTWError> {
+        let grade = Grade {
             // FIXME
             exam_nr: String::from(json["PrNr"].as_str().unwrap()),
             status: String::from(json["Status"].as_str().unwrap()),
@@ -88,7 +91,9 @@ impl FromJson for Grade {
             exam_form: String::from(json["PrForm"].as_str().unwrap()),
             comment: String::from(json["Vermerk"].as_str().unwrap()),
             ects_grade: String::from(json["EctsGrade"].as_str().unwrap()),
-        }
+        };
+
+        Ok(grade)
     }
 }
 
@@ -119,7 +124,7 @@ impl Grade {
         map.insert("POVersion", course.regulation_version.clone());
 
         let json = post_json(url, map);
-        let grades = Grade::mult_from_json(json);
+        let grades = Grade::mult_from_json(json).unwrap();
         Some(grades)
     }
 }

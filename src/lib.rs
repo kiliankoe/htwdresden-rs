@@ -77,6 +77,7 @@ impl Login {
 #[derive(Debug)]
 pub enum HTWError {
     Network,
+    Decoding,
 }
 
 // internal stuff
@@ -104,9 +105,9 @@ fn post_json(url: &str, params: HashMap<&str, String>) -> JsonValue {
 }
 
 trait FromJson {
-    fn from_json(json: JsonValue) -> Self;
+    fn from_json(json: JsonValue) -> Result<Self, HTWError> where Self: std::marker::Sized;
 
-    fn mult_from_json(json: JsonValue) -> Vec<Self>
+    fn mult_from_json(json: JsonValue) -> Result<Vec<Self>, HTWError>
         where Self: std::marker::Sized
     {
         let arr = match json {
@@ -117,9 +118,13 @@ trait FromJson {
         // TODO: How does map or whatever equiv work in Rust?
         let mut values: Vec<Self> = Vec::new();
         for json_val in arr {
-            values.push(Self::from_json(json_val));
+            let val = match Self::from_json(json_val) {
+                Ok(val) => val,
+                Err(err) => return Err(HTWError::Decoding),
+            };
+            values.push(val);
         }
 
-        values
+        Ok(values)
     }
 }

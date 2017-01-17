@@ -1,5 +1,6 @@
 use json::JsonValue;
 
+use HTWError;
 use Year;
 use CourseId;
 use Degree;
@@ -24,8 +25,8 @@ pub struct Exam {
 }
 
 impl FromJson for Exam {
-    fn from_json(json: JsonValue) -> Exam {
-        Exam {
+    fn from_json(json: JsonValue) -> Result<Self, HTWError> {
+        let exam = Exam {
             // wat o.O FIXME
             title: String::from(json["Title"].as_str().unwrap()),
             exam_type: String::from(json["ExamType"].as_str().unwrap()),
@@ -36,7 +37,9 @@ impl FromJson for Exam {
             examiner: String::from(json["Examiner"].as_str().unwrap()),
             next_chance: String::from(json["NextChance"].as_str().unwrap()),
             rooms: vec![String::new()], // TODO
-        }
+        };
+
+        Ok(exam)
     }
 }
 
@@ -55,7 +58,7 @@ impl Exam {
     /// let group = Studygroup { year: 2016, course: 121, group: 61, degree: Degree::Bachelor };
     /// let exams = Exam::for_studygroup(&group);
     /// ```
-    pub fn for_studygroup(group: &Studygroup) -> Option<Vec<Exam>> {
+    pub fn for_studygroup(group: &Studygroup) -> Result<Vec<Exam>, HTWError> {
         Exam::for_student(group.year, group.course, group.degree)
     }
 
@@ -74,7 +77,10 @@ impl Exam {
     ///
     /// let exams = Exam::for_student(2016, 121, Degree::Bachelor);
     /// ```
-    pub fn for_student(year: Year, course: CourseId, degree: Degree) -> Option<Vec<Exam>> {
+    pub fn for_student(year: Year,
+                       course: CourseId,
+                       degree: Degree)
+                       -> Result<Vec<Exam>, HTWError> {
         let url = format!("{base}?StgJhr={year}&Stg={course}&AbSc={degree}",
                           base = BASE_URL,
                           year = year,
@@ -82,8 +88,8 @@ impl Exam {
                           degree = degree.short());
 
         let json = get_json(&url);
-        let exams = Exam::mult_from_json(json);
-        Some(exams)
+        let exams = Exam::mult_from_json(json).unwrap();
+        Ok(exams)
     }
 
     /// Returns a list of `Exam`s for a given professor.
@@ -99,10 +105,10 @@ impl Exam {
     ///
     /// let exams = Exam::for_prof("Rennekamp");
     /// ```
-    pub fn for_prof(prof: &str) -> Option<Vec<Exam>> {
+    pub fn for_prof(prof: &str) -> Result<Vec<Exam>, HTWError> {
         let url = format!("{base}?Prof={prof}", base = BASE_URL, prof = prof);
         let json = get_json(&url);
-        let exams = Exam::mult_from_json(json);
-        Some(exams)
+        let exams = Exam::mult_from_json(json).unwrap();
+        Ok(exams)
     }
 }
