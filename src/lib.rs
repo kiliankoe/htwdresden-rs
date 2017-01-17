@@ -2,7 +2,8 @@ extern crate reqwest;
 extern crate json;
 
 pub mod grades;
-pub mod exams;
+mod exams;
+pub use exams::Exam;
 
 use std::io::Read;
 use std::collections::HashMap;

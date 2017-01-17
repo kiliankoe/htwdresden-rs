@@ -7,7 +7,7 @@ Rust library for accessing organisational data from the [University of Applied S
 ### Exams
 
 ```rust
-use htwdresden::{Degree, exams};
+use htwdresden::{Degree, Exam};
 
 let group = Studygroup {
     year: 2016,
@@ -15,9 +15,9 @@ let group = Studygroup {
     group: 61,
     degree: Degree::Bachelor,
 };
-let e = exams::student_exams(&group).unwrap();
+let exams = Exam::for_studygroup(&group);
 
-let p = exams::prof_exams("prof identifier");
+let exams = Exam::for_prof("prof identifier");
 ```
 
 ### Grades

@@ -1,21 +1,21 @@
 extern crate htwdresden;
 
-use htwdresden::{Degree, Studygroup, exams};
+use htwdresden::{Degree, Studygroup, Exam};
 
 fn main() {
-    println!("Exams for 16/121/61:");
     let group = Studygroup {
         year: 2016,
         course: 121,
         group: 61,
         degree: Degree::Bachelor,
     };
-    let e = exams::student_exams(&group).unwrap();
-    println!("{:?}", e);
+    println!("Exams for {}:", group.identifier());
+    let exam = Exam::for_studygroup(&group).unwrap();
+    println!("{:?}", exam);
 
     println!();
 
     println!("Exams for Prof. Rennekamp:");
-    let e = exams::prof_exams("Rennekamp").unwrap();
-    println!("{:?}", e);
+    let exam = Exam::for_prof("Rennekamp").unwrap();
+    println!("{:?}", exam);
 }

@@ -1,58 +1,13 @@
 use json::JsonValue;
 
+use Year;
+use Course;
+use Degree;
 use Studygroup;
 use FromJson;
 use get_json;
 
 const BASE_URL: &'static str = "https://www2.htw-dresden.de/~app/API/GetExams.php";
-
-/// Returns a list of `Exam`s for a given student.
-///
-/// # Arguments
-///
-/// * `year` - Year
-/// * `course` - Course identifier
-/// * `degree` - Degree
-///
-/// # Example
-///
-/// ```
-/// use htwdresden::{Degree, Studygroup, exams};
-///
-/// let group = Studygroup { year: 2016, course: 121, group: 61, degree: Degree::Bachelor };
-/// let all_exams = exams::student_exams(&group);
-/// ```
-pub fn student_exams(group: &Studygroup) -> Option<Vec<Exam>> {
-    let url = format!("{base}?StgJhr={year}&Stg={course}&AbSc={degree}",
-                      base = BASE_URL,
-                      year = group.year,
-                      course = group.course,
-                      degree = group.degree.short());
-
-    let json = get_json(&url);
-    let exams = Exam::mult_from_json(json);
-    Some(exams)
-}
-
-/// Returns a list of `Exam`s for a given professor.
-///
-/// # Arguments
-///
-/// * `prof` - Professor name
-///
-/// # Example
-///
-/// ```
-/// use htwdresden::exams::prof_exams;
-///
-/// let exams = prof_exams("Rennekamp");
-/// ```
-pub fn prof_exams(prof: &str) -> Option<Vec<Exam>> {
-    let url = format!("{base}?Prof={prof}", base = BASE_URL, prof = prof);
-    let json = get_json(&url);
-    let exams = Exam::mult_from_json(json);
-    Some(exams)
-}
 
 /// An exam, something to study for!
 #[derive(Debug)]
@@ -82,5 +37,72 @@ impl FromJson for Exam {
             next_chance: String::from(json["NextChance"].as_str().unwrap()),
             rooms: vec![String::new()], // TODO
         }
+    }
+}
+
+impl Exam {
+    /// Returns a list of `Exam`s for a given study group.
+    ///
+    /// # Arguments
+    ///
+    /// * `group` - Studygroup
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// use htwdresden::{Degree, Studygroup, Exam};
+    ///
+    /// let group = Studygroup { year: 2016, course: 121, group: 61, degree: Degree::Bachelor };
+    /// let exams = Exam::for_studygroup(&group);
+    /// ```
+    pub fn for_studygroup(group: &Studygroup) -> Option<Vec<Exam>> {
+        Exam::for_student(group.year, group.course, group.degree)
+    }
+
+    /// Returns a list of `Exam`s for a given student.
+    ///
+    /// # Arguments
+    ///
+    /// * `year` - Year
+    /// * `course` - Course identifier
+    /// * `degree` - Degree
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// use htwdresden::{Degree, Exam};
+    ///
+    /// let exams = Exam::for_student(2016, 121, Degree::Bachelor);
+    /// ```
+    pub fn for_student(year: Year, course: Course, degree: Degree) -> Option<Vec<Exam>> {
+        let url = format!("{base}?StgJhr={year}&Stg={course}&AbSc={degree}",
+                          base = BASE_URL,
+                          year = year,
+                          course = course,
+                          degree = degree.short());
+
+        let json = get_json(&url);
+        let exams = Exam::mult_from_json(json);
+        Some(exams)
+    }
+
+    /// Returns a list of `Exam`s for a given professor.
+    ///
+    /// # Arguments
+    ///
+    /// * `prof` - Professor name
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// use htwdresden::Exam;
+    ///
+    /// let exams = Exam::for_prof("Rennekamp");
+    /// ```
+    pub fn for_prof(prof: &str) -> Option<Vec<Exam>> {
+        let url = format!("{base}?Prof={prof}", base = BASE_URL, prof = prof);
+        let json = get_json(&url);
+        let exams = Exam::mult_from_json(json);
+        Some(exams)
     }
 }
