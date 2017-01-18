@@ -76,7 +76,8 @@ impl Login {
 /// A set of errors that may occur during execution.
 #[derive(Debug)]
 pub enum HTWError {
-    Network,
+    Network(reqwest::Error),
+    Json(json::Error),
     Decoding(&'static str),
 }
 
@@ -88,13 +89,19 @@ fn json_string(json: &JsonValue, name: &'static str) -> Result<String, HTWError>
     Ok(String::from(str))
 }
 
-fn get_json(url: &str) -> JsonValue {
-    let mut res = reqwest::get(url).unwrap();
+fn get_json(url: &str) -> Result<JsonValue, HTWError> {
+    let mut res = match reqwest::get(url) {
+        Ok(res) => res,
+        Err(err) => return Err(HTWError::Network(err)),
+    };
 
     let mut response = String::new();
     let _ = res.read_to_string(&mut response);
 
-    json::parse(&response).unwrap()
+    match json::parse(&response) {
+        Ok(json) => Ok(json),
+        Err(err) => Err(HTWError::Json(err)),
+    }
 }
 
 fn post_json(url: &str, params: HashMap<&str, String>) -> JsonValue {
