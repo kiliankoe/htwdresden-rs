@@ -27,6 +27,14 @@ pub struct Exam {
 
 impl FromJson for Exam {
     fn from_json(json: JsonValue) -> Result<Self, HTWError> {
+        let arr = match json["Rooms"].clone() {
+            JsonValue::Array(arr) => arr,
+            _ => return Err(HTWError::Decoding("Rooms")),
+        };
+        let rooms: Vec<String> = arr.iter()
+            .map(|room| String::from(room.as_str().expect("Rooms should be listed as Strings :/")))
+            .collect();
+
         let exam = Exam {
             title: json_string(&json, "Title")?,
             exam_type: json_string(&json, "ExamType")?,
@@ -36,7 +44,7 @@ impl FromJson for Exam {
             end_time: json_string(&json, "EndTime")?,
             examiner: json_string(&json, "Examiner")?,
             next_chance: json_string(&json, "NextChance")?,
-            rooms: vec![String::new()], // TODO
+            rooms: rooms,
         };
 
         Ok(exam)
