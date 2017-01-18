@@ -121,13 +121,10 @@ trait FromJson {
             _ => panic!("Can't instantiate many values from non-array in JSON."),
         };
 
-        // TODO: How does map or whatever equiv work in Rust?
+        // TODO: How does map or whatever is equivalent work in Rust?
         let mut values: Vec<Self> = Vec::new();
         for json_val in arr {
-            let val = match Self::from_json(json_val) {
-                Ok(val) => val,
-                Err(err) => return Err(HTWError::Decoding),
-            };
+            let val = Self::from_json(json_val)?;
             values.push(val);
         }
 
