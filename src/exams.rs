@@ -6,6 +6,7 @@ use CourseId;
 use Degree;
 use Studygroup;
 use FromJson;
+use json_string;
 use get_json;
 
 const BASE_URL: &'static str = "https://www2.htw-dresden.de/~app/API/GetExams.php";
@@ -27,15 +28,14 @@ pub struct Exam {
 impl FromJson for Exam {
     fn from_json(json: JsonValue) -> Result<Self, HTWError> {
         let exam = Exam {
-            // wat o.O FIXME
-            title: String::from(json["Title"].as_str().unwrap()),
-            exam_type: String::from(json["ExamType"].as_str().unwrap()),
-            study_branch: String::from(json["StudyBranch"].as_str().unwrap()),
-            day: String::from(json["Day"].as_str().unwrap()),
-            start_time: String::from(json["StartTime"].as_str().unwrap()),
-            end_time: String::from(json["EndTime"].as_str().unwrap()),
-            examiner: String::from(json["Examiner"].as_str().unwrap()),
-            next_chance: String::from(json["NextChance"].as_str().unwrap()),
+            title: json_string(&json, "Title")?,
+            exam_type: json_string(&json, "ExamType")?,
+            study_branch: json_string(&json, "StudyBranch")?,
+            day: json_string(&json, "Day")?,
+            start_time: json_string(&json, "StartTime")?,
+            end_time: json_string(&json, "EndTime")?,
+            examiner: json_string(&json, "Examiner")?,
+            next_chance: json_string(&json, "NextChance")?,
             rooms: vec![String::new()], // TODO
         };
 

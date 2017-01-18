@@ -77,10 +77,16 @@ impl Login {
 #[derive(Debug)]
 pub enum HTWError {
     Network,
-    Decoding,
+    Decoding(&'static str),
 }
 
 // internal stuff
+
+fn json_string(json: &JsonValue, name: &'static str) -> Result<String, HTWError> {
+    // not sure if this is a stupid idea or not
+    let str = json[name].as_str().ok_or_else(|| HTWError::Decoding(name))?;
+    Ok(String::from(str))
+}
 
 fn get_json(url: &str) -> JsonValue {
     let mut res = reqwest::get(url).unwrap();
