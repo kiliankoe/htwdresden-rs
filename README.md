@@ -26,8 +26,9 @@ let exams = Exam::for_prof("prof identifier");
 use htwdresden::{Login, Course, Grade};
 
 let login = Login::new("s#####", "password");
-let courses = Course::get(&login).unwrap();
-let grades = Grade::get(&login, &courses[0]);
+if let Ok(courses) = Course::get(&login) {
+    let grades = Grade::get(&login, &courses[0]);
+}
 ```
 
 ### Timetable
