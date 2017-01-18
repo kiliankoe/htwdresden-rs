@@ -46,15 +46,14 @@ impl Course {
     /// let login = Login::new("s#####", "password");
     /// let courses = Course::get(&login);
     /// ```
-    pub fn get(login: &Login) -> Option<Vec<Course>> {
+    pub fn get(login: &Login) -> Result<Vec<Course>, HTWError> {
         let url = "https://wwwqis.htw-dresden.de/appservice/getcourses";
         let mut map = HashMap::new();
         map.insert("sNummer", login.snumber.clone()); // is cloning ok?
         map.insert("RZLogin", login.password.clone());
 
         let json = post_json(url, map);
-        let courses = Course::mult_from_json(json).unwrap();
-        Some(courses)
+        Ok(Course::mult_from_json(json)?)
     }
 }
 
@@ -113,7 +112,7 @@ impl Grade {
     /// let courses = Course::get(&login).unwrap();
     /// let grades = Grade::get(&login, &courses[0]);
     /// ```
-    pub fn get(login: &Login, course: &Course) -> Option<Vec<Grade>> {
+    pub fn get(login: &Login, course: &Course) -> Result<Vec<Grade>, HTWError> {
         let url = "https://wwwqis.htw-dresden.de/appservice/getgrades";
         let mut map = HashMap::new();
         map.insert("sNummer", login.snumber.clone());
@@ -123,7 +122,6 @@ impl Grade {
         map.insert("POVersion", course.regulation_version.clone());
 
         let json = post_json(url, map);
-        let grades = Grade::mult_from_json(json).unwrap();
-        Some(grades)
+        Ok(Grade::mult_from_json(json)?)
     }
 }
