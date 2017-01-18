@@ -109,7 +109,7 @@ impl Grade {
     /// use htwdresden::{Login, Course, Grade};
     ///
     /// let login = Login::new("s#####", "password");
-    /// if let courses = Course::get(&login) {
+    /// if let Ok(courses) = Course::get(&login) {
     ///     let grades = Grade::get(&login, &courses[0]);
     /// }
     /// ```
