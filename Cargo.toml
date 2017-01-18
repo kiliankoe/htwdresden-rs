@@ -9,7 +9,7 @@ homepage = "https://github.com/kiliankoe/htwdresden-rs"
 repository = "https://github.com/kiliankoe/htwdresden-rs"
 
 readme = "README.md"
-keywords = ["university", "htw", "dresden", "exam", "grade", "timetable"]
+keywords = ["university", "htw", "dresden"]
 license = "MIT"
 
 [dependencies]
