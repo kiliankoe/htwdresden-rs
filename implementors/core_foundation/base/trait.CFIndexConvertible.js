@@ -1,6 +1,5 @@
 (function() {var implementors = {};
 implementors["core_foundation"] = [];
-implementors["hyper"] = [];
 implementors["reqwest"] = [];
 
             if (window.register_implementors) {

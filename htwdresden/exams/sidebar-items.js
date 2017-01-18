@@ -1,1 +1,0 @@
-initSidebarItems({"fn":[["prof_exams","Returns a list of `Exam`s for a given professor."],["student_exams","Returns a list of `Exam`s for a given student."]],"struct":[["Exam",""]]});

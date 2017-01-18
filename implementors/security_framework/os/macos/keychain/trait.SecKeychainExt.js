@@ -1,5 +1,4 @@
 (function() {var implementors = {};
-implementors["hyper"] = [];
 implementors["reqwest"] = [];
 implementors["security_framework"] = [];
 
