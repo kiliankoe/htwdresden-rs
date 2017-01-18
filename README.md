@@ -1,5 +1,8 @@
 # 📚 htwdresden
 
+[![Travis](https://img.shields.io/travis/kiliankoe/htwdresden-rs.svg?style=flat-square)](https://travis-ci.org/kiliankoe/htwdresden-rs)
+![Crates.io](https://img.shields.io/crates/v/rustc-serialize.svg?style=flat-square)
+
 Rust library for accessing organisational data from the [University of Applied Sciences Dresden](https://www.htw-dresden.de/).
 
 ## Examples
