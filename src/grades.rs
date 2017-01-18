@@ -52,7 +52,7 @@ impl Course {
         map.insert("sNummer", login.snumber.clone()); // is cloning ok?
         map.insert("RZLogin", login.password.clone());
 
-        let json = post_json(url, map);
+        let json = post_json(url, map)?;
         Ok(Course::mult_from_json(json)?)
     }
 }
@@ -109,8 +109,9 @@ impl Grade {
     /// use htwdresden::{Login, Course, Grade};
     ///
     /// let login = Login::new("s#####", "password");
-    /// let courses = Course::get(&login).unwrap();
-    /// let grades = Grade::get(&login, &courses[0]);
+    /// if let courses = Course::get(&login) {
+    ///     let grades = Grade::get(&login, &courses[0]);
+    /// }
     /// ```
     pub fn get(login: &Login, course: &Course) -> Result<Vec<Grade>, HTWError> {
         let url = "https://wwwqis.htw-dresden.de/appservice/getgrades";
@@ -121,7 +122,7 @@ impl Grade {
         map.insert("StgNr", course.course_nr.clone());
         map.insert("POVersion", course.regulation_version.clone());
 
-        let json = post_json(url, map);
+        let json = post_json(url, map)?;
         Ok(Grade::mult_from_json(json)?)
     }
 }

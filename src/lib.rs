@@ -81,6 +81,8 @@ pub enum HTWError {
     Decoding(&'static str),
 }
 
+// TODO: Have a look at implementing std::convert::From for converting between error types
+
 // internal stuff
 
 fn json_string(json: &JsonValue, name: &'static str) -> Result<String, HTWError> {
@@ -104,17 +106,20 @@ fn get_json(url: &str) -> Result<JsonValue, HTWError> {
     }
 }
 
-fn post_json(url: &str, params: HashMap<&str, String>) -> JsonValue {
-    let client = reqwest::Client::new().unwrap();
-    let mut res = client.post(url)
-        .form(&params)
-        .send()
-        .unwrap();
+fn post_json(url: &str, params: HashMap<&str, String>) -> Result<JsonValue, HTWError> {
+    let client = reqwest::Client::new().expect("Failed to instantiate reqwest client o.O");
+    let mut res = match client.post(url).form(&params).send() {
+        Ok(res) => res,
+        Err(err) => return Err(HTWError::Network(err)),
+    };
 
     let mut response = String::new();
     let _ = res.read_to_string(&mut response);
 
-    json::parse(&response).unwrap()
+    match json::parse(&response) {
+        Ok(json) => Ok(json),
+        Err(err) => Err(HTWError::Json(err)),
+    }
 }
 
 trait FromJson {
