@@ -1,6 +1,7 @@
 use HTWError;
 use Login;
 use FromJson;
+use json_string;
 use post_json;
 
 use std::collections::HashMap;
@@ -19,12 +20,11 @@ pub struct Course {
 impl FromJson for Course {
     fn from_json(json: JsonValue) -> Result<Self, HTWError> {
         let course = Course {
-            // FIXME
-            degree_txt: String::from(json["AbschlTxt"].as_str().unwrap()),
-            regulation_version: String::from(json["POVersion"].as_str().unwrap()),
-            deg_nr: String::from(json["AbschlNr"].as_str().unwrap()),
-            course_nr: String::from(json["StgNr"].as_str().unwrap()),
-            course_note: String::from(json["StgTxt"].as_str().unwrap()),
+            degree_txt: json_string(&json, "AbschlTxt")?,
+            regulation_version: json_string(&json, "POVersion")?,
+            deg_nr: json_string(&json, "AbschlNr")?,
+            course_nr: json_string(&json, "StgNr")?,
+            course_note: json_string(&json, "StgTxt")?,
         };
 
         Ok(course)
@@ -78,19 +78,18 @@ pub struct Grade {
 impl FromJson for Grade {
     fn from_json(json: JsonValue) -> Result<Self, HTWError> {
         let grade = Grade {
-            // FIXME
-            exam_nr: String::from(json["PrNr"].as_str().unwrap()),
-            status: String::from(json["Status"].as_str().unwrap()),
-            ects_credits: String::from(json["EctsCredits"].as_str().unwrap()),
-            exam_txt: String::from(json["PrTxt"].as_str().unwrap()),
-            semester: String::from(json["Semester"].as_str().unwrap()),
-            try_count: String::from(json["Versuch"].as_str().unwrap()),
-            exam_date: String::from(json["PrDatum"].as_str().unwrap()),
-            grade: String::from(json["PrNote"].as_str().unwrap()),
-            publish_date: String::from(json["VoDatum"].as_str().unwrap()),
-            exam_form: String::from(json["PrForm"].as_str().unwrap()),
-            comment: String::from(json["Vermerk"].as_str().unwrap()),
-            ects_grade: String::from(json["EctsGrade"].as_str().unwrap()),
+            exam_nr: json_string(&json, "PrNr")?,
+            status: json_string(&json, "Status")?,
+            ects_credits: json_string(&json, "EctsCredits")?,
+            exam_txt: json_string(&json, "PrTxt")?,
+            semester: json_string(&json, "Semester")?,
+            try_count: json_string(&json, "Versuch")?,
+            exam_date: json_string(&json, "PrDatum")?,
+            grade: json_string(&json, "PrNote")?,
+            publish_date: json_string(&json, "VoDatum")?,
+            exam_form: json_string(&json, "PrForm")?,
+            comment: json_string(&json, "Vermerk")?,
+            ects_grade: json_string(&json, "EctsGrade")?,
         };
 
         Ok(grade)
