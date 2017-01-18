@@ -88,8 +88,7 @@ impl Exam {
                           degree = degree.short());
 
         let json = get_json(&url);
-        let exams = Exam::mult_from_json(json).unwrap();
-        Ok(exams)
+        Ok(Exam::mult_from_json(json)?)
     }
 
     /// Returns a list of `Exam`s for a given professor.
@@ -108,7 +107,6 @@ impl Exam {
     pub fn for_prof(prof: &str) -> Result<Vec<Exam>, HTWError> {
         let url = format!("{base}?Prof={prof}", base = BASE_URL, prof = prof);
         let json = get_json(&url);
-        let exams = Exam::mult_from_json(json).unwrap();
-        Ok(exams)
+        Ok(Exam::mult_from_json(json)?)
     }
 }
