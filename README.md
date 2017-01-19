@@ -5,6 +5,12 @@
 
 Rust library for accessing organisational data from the [University of Applied Sciences Dresden](https://www.htw-dresden.de/).
 
+Add the following to your dependencies in your `Cargo.toml`.
+
+```toml
+htwdresden = "0.1"
+```
+
 ## Examples
 
 ### Exams
