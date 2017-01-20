@@ -1,5 +1,8 @@
 extern crate reqwest;
 extern crate json;
+#[macro_use]
+extern crate serde_derive;
+extern crate serde_json;
 
 mod grades;
 pub use grades::{Course, Grade};
@@ -81,7 +84,17 @@ pub enum HTWError {
     Decoding(&'static str),
 }
 
-// TODO: Have a look at implementing std::convert::From for converting between error types
+impl From<reqwest::Error> for HTWError {
+    fn from(err: reqwest::Error) -> Self {
+        HTWError::Network(err)
+    }
+}
+
+impl From<json::Error> for HTWError {
+    fn from(err: json::Error) -> Self {
+        HTWError::Json(err)
+    }
+}
 
 // internal stuff
 
@@ -93,22 +106,6 @@ fn json_string(json: &JsonValue, name: &'static str) -> Result<String, HTWError>
 
 fn get_json(url: &str) -> Result<JsonValue, HTWError> {
     let mut res = match reqwest::get(url) {
-        Ok(res) => res,
-        Err(err) => return Err(HTWError::Network(err)),
-    };
-
-    let mut response = String::new();
-    let _ = res.read_to_string(&mut response);
-
-    match json::parse(&response) {
-        Ok(json) => Ok(json),
-        Err(err) => Err(HTWError::Json(err)),
-    }
-}
-
-fn post_json(url: &str, params: HashMap<&str, String>) -> Result<JsonValue, HTWError> {
-    let client = reqwest::Client::new().expect("Failed to instantiate reqwest client o.O");
-    let mut res = match client.post(url).form(&params).send() {
         Ok(res) => res,
         Err(err) => return Err(HTWError::Network(err)),
     };

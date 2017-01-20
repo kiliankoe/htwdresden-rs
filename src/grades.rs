@@ -1,34 +1,22 @@
 use HTWError;
 use Login;
-use FromJson;
-use json_string;
-use post_json;
 
 use std::collections::HashMap;
-use json::JsonValue;
+use reqwest;
 
 /// A course of studies.
-#[derive(Debug)]
+#[derive(Deserialize, Debug)]
 pub struct Course {
+    #[serde(rename = "AbschlTxt")]
     pub degree_txt: String,
+    #[serde(rename = "POVersion")]
     pub regulation_version: String,
+    #[serde(rename = "AbschlNr")]
     pub deg_nr: String,
+    #[serde(rename = "StgNr")]
     pub course_nr: String,
+    #[serde(rename = "StgTxt")]
     pub course_note: String,
-}
-
-impl FromJson for Course {
-    fn from_json(json: JsonValue) -> Result<Self, HTWError> {
-        let course = Course {
-            degree_txt: json_string(&json, "AbschlTxt")?,
-            regulation_version: json_string(&json, "POVersion")?,
-            deg_nr: json_string(&json, "AbschlNr")?,
-            course_nr: json_string(&json, "StgNr")?,
-            course_note: json_string(&json, "StgTxt")?,
-        };
-
-        Ok(course)
-    }
 }
 
 impl Course {
@@ -52,47 +40,44 @@ impl Course {
         map.insert("sNummer", login.snumber.clone()); // is cloning ok?
         map.insert("RZLogin", login.password.clone());
 
-        let json = post_json(url, map)?;
-        Ok(Course::mult_from_json(json)?)
+        let client = reqwest::Client::new().expect("Failed to instantiate reqwest client o.O");
+        let courses = client.post(url)
+            .form(&map)
+            .send()?
+            .json()
+            .map(|response: Vec<Course>| response)?;
+
+        Ok(courses)
     }
 }
 
 /// A grade, hopefully a good one.
-#[derive(Debug)]
+#[derive(Deserialize, Debug)]
 pub struct Grade {
+    #[serde(rename = "PrNr")]
     pub exam_nr: String,
+    #[serde(rename = "Status")]
     pub status: String,
+    #[serde(rename = "EctsCredits")]
     pub ects_credits: String,
+    #[serde(rename = "PrTxt")]
     pub exam_txt: String,
+    #[serde(rename = "Semester")]
     pub semester: String,
+    #[serde(rename = "Versuch")]
     pub try_count: String,
+    #[serde(rename = "PrDatum")]
     pub exam_date: String,
+    #[serde(rename = "PrNote")]
     pub grade: String,
+    #[serde(rename = "VoDatum")]
     pub publish_date: String,
+    #[serde(rename = "PrForm")]
     pub exam_form: String,
+    #[serde(rename = "Vermerk")]
     pub comment: String,
+    #[serde(rename = "EctsGrade")]
     pub ects_grade: String,
-}
-
-impl FromJson for Grade {
-    fn from_json(json: JsonValue) -> Result<Self, HTWError> {
-        let grade = Grade {
-            exam_nr: json_string(&json, "PrNr")?,
-            status: json_string(&json, "Status")?,
-            ects_credits: json_string(&json, "EctsCredits")?,
-            exam_txt: json_string(&json, "PrTxt")?,
-            semester: json_string(&json, "Semester")?,
-            try_count: json_string(&json, "Versuch")?,
-            exam_date: json_string(&json, "PrDatum")?,
-            grade: json_string(&json, "PrNote")?,
-            publish_date: json_string(&json, "VoDatum")?,
-            exam_form: json_string(&json, "PrForm")?,
-            comment: json_string(&json, "Vermerk")?,
-            ects_grade: json_string(&json, "EctsGrade")?,
-        };
-
-        Ok(grade)
-    }
 }
 
 impl Grade {
@@ -122,7 +107,13 @@ impl Grade {
         map.insert("StgNr", course.course_nr.clone());
         map.insert("POVersion", course.regulation_version.clone());
 
-        let json = post_json(url, map)?;
-        Ok(Grade::mult_from_json(json)?)
+        let client = reqwest::Client::new().expect("Failed to instantiate reqwest client o.O");
+        let grades = client.post(url)
+            .form(&map)
+            .send()?
+            .json()
+            .map(|response: Vec<Grade>| response)?;
+
+        Ok(grades)
     }
 }
