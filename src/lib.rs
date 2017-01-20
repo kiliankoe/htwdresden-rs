@@ -1,5 +1,4 @@
 extern crate reqwest;
-extern crate json;
 #[macro_use]
 extern crate serde_derive;
 extern crate serde_json;
@@ -76,18 +75,11 @@ impl Login {
 #[derive(Debug)]
 pub enum HTWError {
     Network(reqwest::Error),
-    Json(json::Error),
     Decoding(&'static str),
 }
 
 impl From<reqwest::Error> for HTWError {
     fn from(err: reqwest::Error) -> Self {
         HTWError::Network(err)
-    }
-}
-
-impl From<json::Error> for HTWError {
-    fn from(err: json::Error) -> Self {
-        HTWError::Json(err)
     }
 }
