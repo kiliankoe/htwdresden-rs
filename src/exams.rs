@@ -1,54 +1,34 @@
-use json::JsonValue;
-
 use HTWError;
 use Year;
 use CourseId;
 use Degree;
 use Studygroup;
-use FromJson;
-use json_string;
-use get_json;
+
+use reqwest;
 
 const BASE_URL: &'static str = "https://www2.htw-dresden.de/~app/API/GetExams.php";
 
 /// An exam, something to study for!
-#[derive(Debug)]
+#[derive(Deserialize, Debug)]
 pub struct Exam {
+    #[serde(rename = "Title")]
     pub title: String,
+    #[serde(rename = "ExamType")]
     pub exam_type: String,
+    #[serde(rename = "StudyBranch")]
     pub study_branch: String,
+    #[serde(rename = "Day")]
     pub day: String,
+    #[serde(rename = "StartTime")]
     pub start_time: String,
+    #[serde(rename = "EndTime")]
     pub end_time: String,
+    #[serde(rename = "Examiner")]
     pub examiner: String,
+    #[serde(rename = "NextChance")]
     pub next_chance: String,
+    #[serde(rename = "Rooms")]
     pub rooms: Vec<String>,
-}
-
-impl FromJson for Exam {
-    fn from_json(json: JsonValue) -> Result<Self, HTWError> {
-        let arr = match json["Rooms"].clone() {
-            JsonValue::Array(arr) => arr,
-            _ => return Err(HTWError::Decoding("Rooms")),
-        };
-        let rooms: Vec<String> = arr.iter()
-            .map(|room| String::from(room.as_str().expect("Rooms should be listed as Strings :/")))
-            .collect();
-
-        let exam = Exam {
-            title: json_string(&json, "Title")?,
-            exam_type: json_string(&json, "ExamType")?,
-            study_branch: json_string(&json, "StudyBranch")?,
-            day: json_string(&json, "Day")?,
-            start_time: json_string(&json, "StartTime")?,
-            end_time: json_string(&json, "EndTime")?,
-            examiner: json_string(&json, "Examiner")?,
-            next_chance: json_string(&json, "NextChance")?,
-            rooms: rooms,
-        };
-
-        Ok(exam)
-    }
 }
 
 impl Exam {
@@ -95,8 +75,11 @@ impl Exam {
                           course = course,
                           degree = degree.short());
 
-        let json = get_json(&url)?;
-        Ok(Exam::mult_from_json(json)?)
+        let exams = reqwest::get(&url)?
+            .json()
+            .map(|response: Vec<Exam>| response)?;
+
+        Ok(exams)
     }
 
     /// Returns a list of `Exam`s for a given professor.
@@ -114,7 +97,10 @@ impl Exam {
     /// ```
     pub fn for_prof(prof: &str) -> Result<Vec<Exam>, HTWError> {
         let url = format!("{base}?Prof={prof}", base = BASE_URL, prof = prof);
-        let json = get_json(&url)?;
-        Ok(Exam::mult_from_json(json)?)
+        let exams = reqwest::get(&url)?
+            .json()
+            .map(|response: Vec<Exam>| response)?;
+
+        Ok(exams)
     }
 }
