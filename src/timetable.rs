@@ -37,4 +37,16 @@ impl Lesson {
         let lessons = reqwest::get(&url)?.json().map(|response: Vec<Lesson>| response)?;
         Ok(lessons)
     }
+
+    pub fn for_prof(prof: &str) -> Result<Vec<Lesson>, HTWError> {
+        let url = format!("{}?Prof={}", BASE_URL, prof);
+        let lessons = reqwest::get(&url)?.json().map(|response: Vec<Lesson>| response)?;
+        Ok(lessons)
+    }
+
+    pub fn for_room(room: &str) -> Result<Vec<Lesson>, HTWError> {
+        let url = format!("{}?Room={}", BASE_URL, room);
+        let lessons = reqwest::get(&url)?.json().map(|response: Vec<Lesson>| response)?;
+        Ok(lessons)
+    }
 }
