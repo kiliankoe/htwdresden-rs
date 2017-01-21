@@ -4,7 +4,7 @@ version = "0.2.0"
 authors = ["Kilian Koeltzsch <me@kilian.io>"]
 
 description = "Library for accessing organisational data from the University of Applied Sciences Dresden (HTW Dresden)."
-documentation = "https://kiliankoe.github.io/htwdresden-rs/htwdresden/index.html"
+documentation = "https://docs.rs/htwdresden/"
 homepage = "https://github.com/kiliankoe/htwdresden-rs"
 repository = "https://github.com/kiliankoe/htwdresden-rs"
 
