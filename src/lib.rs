@@ -7,9 +7,28 @@ mod grades;
 pub use grades::{Course, Grade};
 mod exams;
 pub use exams::Exam;
+mod timetable;
+pub use timetable::Lesson;
 
 pub type Year = u16;
 pub type CourseId = u16;
+
+#[derive(Deserialize, Debug)]
+pub enum Week {
+    Even,
+    Odd,
+}
+
+#[derive(Deserialize, Debug)]
+pub enum Weekday {
+    Monday,
+    Tuesday,
+    Wednesday,
+    Thursday,
+    Friday,
+    Saturday,
+    Sunday,
+}
 
 #[derive(Debug)]
 pub struct Studygroup {
