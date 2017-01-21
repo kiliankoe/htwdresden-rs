@@ -40,9 +40,23 @@ if let Ok(courses) = Course::get(&login) {
 }
 ```
 
-### Timetable
+### Lessons
 
-WIP
+```rust
+use htwdresden::{Degree, Studygroup, Lesson};
+
+let group = Studygroup {
+    year: 2016,
+    course: 121,
+    group: 61,
+    degree: Degree::Bachelor,
+};
+let lessons = Lesson::for_studygroup(&group);
+
+let lessons = Lesson::for_prof("Sobe");
+
+let lessons = Lesson::for_room("Z 254");
+```
 
 ### Room Search
 
