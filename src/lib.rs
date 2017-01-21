@@ -7,8 +7,8 @@ mod grades;
 pub use grades::{Course, Grade};
 mod exams;
 pub use exams::Exam;
-mod timetable;
-pub use timetable::Lesson;
+mod lesson;
+pub use lesson::Lesson;
 
 pub type Year = u16;
 pub type CourseId = u16;
