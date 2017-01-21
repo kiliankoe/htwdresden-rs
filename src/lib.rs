@@ -75,7 +75,6 @@ impl Login {
 #[derive(Debug)]
 pub enum HTWError {
     Network(reqwest::Error),
-    Decoding(&'static str),
 }
 
 impl From<reqwest::Error> for HTWError {
