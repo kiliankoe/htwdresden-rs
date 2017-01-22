@@ -1,7 +1,7 @@
 use Week;
 use Weekday;
 use Studygroup;
-use HTWError;
+use Error;
 
 use reqwest;
 
@@ -28,7 +28,7 @@ pub struct Lesson {
 }
 
 impl Lesson {
-    pub fn for_studygroup(group: &Studygroup) -> Result<Vec<Lesson>, HTWError> {
+    pub fn for_studygroup(group: &Studygroup) -> Result<Vec<Lesson>, Error> {
         let url = format!("{}?StgJhr={}&Stg={}&StgGrp={}",
                           BASE_URL,
                           group.year,
@@ -38,13 +38,13 @@ impl Lesson {
         Ok(lessons)
     }
 
-    pub fn for_prof(prof: &str) -> Result<Vec<Lesson>, HTWError> {
+    pub fn for_prof(prof: &str) -> Result<Vec<Lesson>, Error> {
         let url = format!("{}?Prof={}", BASE_URL, prof);
         let lessons = reqwest::get(&url)?.json().map(|response: Vec<Lesson>| response)?;
         Ok(lessons)
     }
 
-    pub fn for_room(room: &str) -> Result<Vec<Lesson>, HTWError> {
+    pub fn for_room(room: &str) -> Result<Vec<Lesson>, Error> {
         let url = format!("{}?Room={}", BASE_URL, room);
         let lessons = reqwest::get(&url)?.json().map(|response: Vec<Lesson>| response)?;
         Ok(lessons)

@@ -1,4 +1,4 @@
-use HTWError;
+use Error;
 use Year;
 use CourseId;
 use Degree;
@@ -46,7 +46,7 @@ impl Exam {
     /// let group = Studygroup { year: 2016, course: 121, group: 61, degree: Degree::Bachelor };
     /// let exams = Exam::for_studygroup(&group);
     /// ```
-    pub fn for_studygroup(group: &Studygroup) -> Result<Vec<Exam>, HTWError> {
+    pub fn for_studygroup(group: &Studygroup) -> Result<Vec<Exam>, Error> {
         Exam::for_student(group.year, group.course, group.degree)
     }
 
@@ -65,10 +65,7 @@ impl Exam {
     ///
     /// let exams = Exam::for_student(2016, 121, Degree::Bachelor);
     /// ```
-    pub fn for_student(year: Year,
-                       course: CourseId,
-                       degree: Degree)
-                       -> Result<Vec<Exam>, HTWError> {
+    pub fn for_student(year: Year, course: CourseId, degree: Degree) -> Result<Vec<Exam>, Error> {
         let url = format!("{base}?StgJhr={year}&Stg={course}&AbSc={degree}",
                           base = BASE_URL,
                           year = year,
@@ -95,7 +92,7 @@ impl Exam {
     ///
     /// let exams = Exam::for_prof("Rennekamp");
     /// ```
-    pub fn for_prof(prof: &str) -> Result<Vec<Exam>, HTWError> {
+    pub fn for_prof(prof: &str) -> Result<Vec<Exam>, Error> {
         let url = format!("{base}?Prof={prof}", base = BASE_URL, prof = prof);
         let exams = reqwest::get(&url)?
             .json()

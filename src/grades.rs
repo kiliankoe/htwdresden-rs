@@ -1,4 +1,4 @@
-use HTWError;
+use Error;
 use Login;
 
 use std::collections::HashMap;
@@ -34,7 +34,7 @@ impl Course {
     /// let login = Login::new("s#####", "password");
     /// let courses = Course::get(&login);
     /// ```
-    pub fn get(login: &Login) -> Result<Vec<Course>, HTWError> {
+    pub fn get(login: &Login) -> Result<Vec<Course>, Error> {
         let url = "https://wwwqis.htw-dresden.de/appservice/getcourses";
         let mut map = HashMap::new();
         map.insert("sNummer", login.snumber.clone()); // is cloning ok?
@@ -98,7 +98,7 @@ impl Grade {
     ///     let grades = Grade::get(&login, &courses[0]);
     /// }
     /// ```
-    pub fn get(login: &Login, course: &Course) -> Result<Vec<Grade>, HTWError> {
+    pub fn get(login: &Login, course: &Course) -> Result<Vec<Grade>, Error> {
         let url = "https://wwwqis.htw-dresden.de/appservice/getgrades";
         let mut map = HashMap::new();
         map.insert("sNummer", login.snumber.clone());

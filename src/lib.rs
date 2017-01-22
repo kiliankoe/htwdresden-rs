@@ -92,12 +92,12 @@ impl Login {
 
 /// A set of errors that may occur during execution.
 #[derive(Debug)]
-pub enum HTWError {
+pub enum Error {
     Network(reqwest::Error),
 }
 
-impl From<reqwest::Error> for HTWError {
+impl From<reqwest::Error> for Error {
     fn from(err: reqwest::Error) -> Self {
-        HTWError::Network(err)
+        Error::Network(err)
     }
 }
