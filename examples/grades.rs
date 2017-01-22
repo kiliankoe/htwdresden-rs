@@ -1,11 +1,12 @@
 extern crate htwdresden;
 
+use std::env;
 use htwdresden::{Login, Course, Grade};
 
 fn main() {
-    let login = option_env!("LOGIN").unwrap_or("");
-    let password = option_env!("PASSWORD").unwrap_or("");
-    let login = Login::new(login, password);
+    let login = env::var("LOGIN").unwrap_or("".into());
+    let password = env::var("PASSWORD").unwrap_or("".into());
+    let login = Login::new(&login, &password);
 
     if let Ok(courses) = Course::get(&login) {
         println!("{:?}", courses);
