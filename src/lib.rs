@@ -9,6 +9,8 @@ mod exams;
 pub use exams::Exam;
 mod lesson;
 pub use lesson::Lesson;
+mod rooms;
+pub use rooms::Room;
 
 pub type Year = u16;
 pub type CourseId = u16;
@@ -72,6 +74,13 @@ impl Degree {
 pub enum Semester {
     Winter(Year),
     Summer(Year),
+}
+
+/// HTW Buildings supported by the API.
+#[derive(Debug)]
+pub enum Building {
+    Z,
+    S,
 }
 
 /// A login used to authenticate with the server.
