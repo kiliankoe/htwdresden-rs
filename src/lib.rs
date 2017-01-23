@@ -11,6 +11,8 @@ mod lesson;
 pub use lesson::Lesson;
 mod rooms;
 pub use rooms::Room;
+mod semester;
+pub use semester::{SemesterPlan, Period, Holiday};
 
 pub type Year = u16;
 pub type CourseId = u16;
