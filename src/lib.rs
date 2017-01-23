@@ -71,13 +71,6 @@ impl Degree {
     }
 }
 
-/// A semester, either Winter or Summer with a corresponding year.
-#[derive(Debug)]
-pub enum Semester {
-    Winter(Year),
-    Summer(Year),
-}
-
 /// HTW Buildings supported by the API.
 #[derive(Debug)]
 pub enum Building {
