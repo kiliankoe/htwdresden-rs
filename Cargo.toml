@@ -1,6 +1,6 @@
 [package]
 name = "htwdresden"
-version = "0.2.0"
+version = "0.3.0"
 authors = ["Kilian Koeltzsch <me@kilian.io>"]
 
 description = "Library for accessing organisational data from the University of Applied Sciences Dresden (HTW Dresden)."

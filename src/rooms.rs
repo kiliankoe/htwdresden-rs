@@ -21,6 +21,23 @@ impl From<String> for Room {
 const BASE_URL: &'static str = "https://www2.htw-dresden.de/~app/API/GetFreeRooms.php";
 
 impl Room {
+    /// Returns a list of free `Rooms`s for a list of given parameters.
+    ///
+    /// # Arguments
+    ///
+    /// * `week` - Even or odd week
+    /// * `Weekday` - A specified weekday
+    /// * `start_time` - Beginning of the search timeframe
+    /// * `end_time` - Ending of the search timeframe
+    /// * `building` - Which building to search in
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// use htwdresden::{Week, Weekday, Room, Building};
+    ///
+    /// let rooms = Room::get_free(Week::Even, Weekday::Monday, "9:30", "10:30", Building::Z);
+    /// ```
     pub fn get_free(week: Week,
                     day: Weekday,
                     start_time: &str,
@@ -34,7 +51,8 @@ impl Room {
                           start_time,
                           end_time,
                           building);
-        let rooms = reqwest::get(&url)?
+        let rooms = reqwest::get(&url)
+            ?
             .json()
             .map(|response: Vec<String>| response)?
             .iter()
