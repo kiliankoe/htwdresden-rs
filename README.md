@@ -60,7 +60,19 @@ let lessons = Lesson::for_room("Z 254");
 
 ### Room Search
 
-WIP
+```rust
+use htwdresden::{Week, Weekday, Room, Building};
+
+let rooms = Room::get_free(Week::Even, Weekday::Monday, "9:30", "10:30", Building::Z);
+```
+
+### Semester Plan
+
+```rust
+use htwdresden::SemesterPlan;
+
+let semesters = SemesterPlan::get();
+```
 
 ## Contributors
 
