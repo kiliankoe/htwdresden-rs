@@ -53,7 +53,7 @@ let group = Studygroup {
 };
 let lessons = Lesson::for_studygroup(&group);
 
-let lessons = Lesson::for_prof("Sobe");
+let lessons = Lesson::for_prof("prof identifier");
 
 let lessons = Lesson::for_room("Z 254");
 ```
