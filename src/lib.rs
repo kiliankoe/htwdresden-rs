@@ -47,18 +47,23 @@ impl Studygroup {
 /// A degree, e.g. something you graduate with.
 #[derive(Debug, Clone, Copy)]
 pub enum Degree {
-    Bachelor,
-    Master,
-    Diploma,
+    Bachelor = 'B' as isize,
+    Master = 'M' as isize,
+    Diploma = 'D' as isize,
 }
 
 impl Degree {
-    fn short(&self) -> &'static str {
-        match *self {
-            Degree::Bachelor => "B",
-            Degree::Master => "M",
-            Degree::Diploma => "D",
-        }
+    // fn short(&self) -> &'static str {
+    //     match *self {
+    //         Degree::Bachelor => "B",
+    //         Degree::Master => "M",
+    //         Degree::Diploma => "D",
+    //     }
+    // }
+
+    // not quite sure yet if this a better solution than above...
+    fn short(&self) -> String {
+        ((*self as u8) as char).to_string()
     }
 }
 
