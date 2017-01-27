@@ -51,7 +51,14 @@ impl SemesterPlan {
     /// }
     /// ```
     pub fn get() -> Result<Vec<SemesterPlan>, Error> {
-        let semesters = reqwest::get(BASE_URL)?
+        let client = reqwest::Client::new().expect("failed to create new reqwest client o.O");
+        // Working around a possible bug in reqwest/hyper on macOS, see https://github.com/seanmonstar/reqwest/issues/26
+        let mut headers = reqwest::header::Headers::new();
+        headers.set(reqwest::header::Connection::close());
+
+        let semesters = client.get(BASE_URL)
+            .headers(headers)
+            .send()?
             .json()
             .map(|response: Vec<SemesterPlan>| response)?;
         Ok(semesters)
