@@ -8,7 +8,7 @@ Rust library for accessing organisational data from the [University of Applied S
 Add the following to your dependencies in your `Cargo.toml`.
 
 ```toml
-htwdresden = "0.2"
+htwdresden = "0.3"
 ```
 
 ## Examples
