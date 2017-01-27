@@ -12,6 +12,9 @@ readme = "README.md"
 keywords = ["university", "htw", "dresden"]
 license = "MIT"
 
+[badges]
+travis-ci = { repository = "kiliankoe/htwdresden-rs" }
+
 [dependencies]
 reqwest = "0.3"
 serde = "0.8"
