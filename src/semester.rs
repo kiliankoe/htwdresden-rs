@@ -29,7 +29,7 @@ pub struct Period {
 
 #[derive(Debug, Deserialize)]
 pub struct Holiday {
-    name: String,
+    pub name: String,
     #[serde(rename = "beginDay")]
     pub begin_day: String,
     #[serde(rename = "endDay")]
