@@ -22,18 +22,18 @@ pub struct SemesterPlan {
 #[derive(Debug, Deserialize)]
 pub struct Period {
     #[serde(rename = "beginDay")]
-    begin_day: String,
+    pub begin_day: String,
     #[serde(rename = "endDay")]
-    end_day: String,
+    pub end_day: String,
 }
 
 #[derive(Debug, Deserialize)]
 pub struct Holiday {
     name: String,
     #[serde(rename = "beginDay")]
-    begin_day: String,
+    pub begin_day: String,
     #[serde(rename = "endDay")]
-    end_day: String,
+    pub end_day: String,
 }
 
 const BASE_URL: &'static str = "https://www2.htw-dresden.de/~app/API/semesterplan.json";
